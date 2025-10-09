@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -48,7 +51,12 @@ class UserController extends Controller
             'email' => 'required|email',
             'password' => 'required|string',
         ]);
-        $user = DB::table('users')->where('email', $data['email'])->first();
+
+
+        $user = User::where('email', $data['email'])->first();
+
+
+        Log::info('User fetched: ', ['user' => $user]);
 
         if (!$user) {
             return response()->json(['message' => 'Usuário não encontrado.'], 404);
@@ -59,5 +67,16 @@ class UserController extends Controller
         if (!$validPassword) {
             return response()->json(['message' => 'Senha incorreta'], 401);
         }
+
+        $token = JWTAuth::customClaims(['id' => $user->id, 'email' => $user->email])->fromUser($user);
+
+
+        return response()->json([
+            'message' => 'Login efetuado com sucesso',
+            'token' => $token,
+            'user' => [
+                'email' => $user->email,
+            ],
+        ]);
     }
 }
