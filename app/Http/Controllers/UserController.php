@@ -17,17 +17,12 @@ class UserController extends Controller
 
         $data = $request->validate([
             'name' => 'required|string|max:50',
-            'email' => 'required|string|max:100',
+            'email' => 'required|string|max:100|unique:users,email',
             'password' => 'required|string|min:6',
+        ], [
+            'email.unique' => "Este email já está em uso",
+            'password.min' => 'A senha precisa ter no mínimo 6 caracteres',
         ]);
-
-        $emailExists = DB::table('users')->where('email', $data['email'])->exists();
-
-        if ($emailExists) {
-            return response()->json([
-                'message' => "O email {$data['email']} já está em uso"
-            ], 409);
-        }
 
 
         DB::table('users')->insert([
@@ -70,6 +65,17 @@ class UserController extends Controller
 
         $token = JWTAuth::customClaims(['id' => $user->id, 'email' => $user->email])->fromUser($user);
 
+        $cookies = cookie(
+            name: 'token',
+            value: $token,
+            minutes: 60 * 24 * 3,
+            path: '/',
+            domain: null,
+            secure: true,
+            httpOnly: true,
+            raw: false,
+            sameSite: 'strict'
+        );
 
         return response()->json([
             'message' => 'Login efetuado com sucesso',
@@ -77,6 +83,6 @@ class UserController extends Controller
             'user' => [
                 'email' => $user->email,
             ],
-        ]);
+        ])->withCookie($cookies);
     }
 }
