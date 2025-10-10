@@ -51,7 +51,7 @@ class UserController extends Controller
         $user = User::where('email', $data['email'])->first();
 
 
-        Log::info('User fetched: ', ['user' => $user]);
+        // Log::info('User fetched: ', ['user' => $user]);
 
         if (!$user) {
             return response()->json(['message' => 'Usuário não encontrado.'], 404);
