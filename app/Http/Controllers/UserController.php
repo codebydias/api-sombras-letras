@@ -85,16 +85,16 @@ class UserController extends Controller
         ])->withCookie($cookies);
     }
 
-    
+
     public function logout(Request $request)
-{
+    {
 
-    $cookie = cookie('token', '', -1, '/', null, false, true, false, 'Strict');
+        $cookie = cookie('token', '', -1, '/', null, false, true, false, 'Strict');
 
-    return response()->json([
-        'message' => 'Logout realizado com sucesso'
-    ])->withCookie($cookie);
-}
+        return response()->json([
+            'message' => 'Logout realizado com sucesso'
+        ])->withCookie($cookie);
+    }
 
 
     public function me(Request $request)
