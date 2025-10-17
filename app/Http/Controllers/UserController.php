@@ -51,10 +51,8 @@ class UserController extends Controller
         $user = User::where('email', $data['email'])->first();
 
 
-        // Log::info('User fetched: ', ['user' => $user]);
-
         if (!$user) {
-            return response()->json(['message' => 'Usuário não encontrado.'], 404);
+            return response()->json(['message' => 'Email não encontrado.'], 404);
         }
 
         $validPassword = Hash::check($data['password'], $user->password);
@@ -71,18 +69,44 @@ class UserController extends Controller
             minutes: 60 * 24 * 3,
             path: '/',
             domain: null,
-            secure: true,
+            secure: false,
             httpOnly: true,
             raw: false,
-            sameSite: 'strict'
+            sameSite: 'lax'
         );
 
         return response()->json([
+            'status' => 'success',
             'message' => 'Login efetuado com sucesso',
             'token' => $token,
             'user' => [
                 'email' => $user->email,
             ],
         ])->withCookie($cookies);
+    }
+
+    
+    public function logout(Request $request)
+{
+
+    $cookie = cookie('token', '', -1, '/', null, false, true, false, 'Strict');
+
+    return response()->json([
+        'message' => 'Logout realizado com sucesso'
+    ])->withCookie($cookie);
+}
+
+
+    public function me(Request $request)
+    {
+        $user = $request->user();
+
+        return response()->json([
+            'user' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+            ]
+        ]);
     }
 }
