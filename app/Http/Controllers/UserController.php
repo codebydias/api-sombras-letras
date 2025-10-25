@@ -36,7 +36,7 @@ class UserController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'message' => "Usuario criado com sucesso"
+            'message' => "Usuário criado com sucesso"
         ], 201);
     }
 
@@ -68,13 +68,12 @@ class UserController extends Controller
             value: $token,
             minutes: 60 * 24 * 3,
             path: '/',
-            domain: null,
-            secure: false,
+            domain: null, 
+            secure: true, 
             httpOnly: true,
             raw: false,
-            sameSite: 'lax'
+            sameSite: 'None'
         );
-
         return response()->json([
             'status' => 'success',
             'message' => 'Login efetuado com sucesso',
@@ -92,6 +91,7 @@ class UserController extends Controller
         $cookie = cookie('token', '', -1, '/', null, false, true, false, 'Strict');
 
         return response()->json([
+            'status' => 'success',
             'message' => 'Logout realizado com sucesso'
         ])->withCookie($cookie);
     }

@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Model;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-
 /**
  * Class User
  * 
@@ -19,13 +18,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property string $name
  * @property string $email
  * @property string $password
- * @property Carbon $created_at
- * @property Carbon $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  *
  * @package App\Models
  */
-
-
 class User extends Authenticatable implements JWTSubject
 {
 	protected $table = 'users';
@@ -36,7 +33,6 @@ class User extends Authenticatable implements JWTSubject
 	];
 
 	protected $fillable = [
-		'id',
 		'name',
 		'email',
 		'password'
@@ -47,9 +43,6 @@ class User extends Authenticatable implements JWTSubject
 		return $this->getKey();
 	}
 
-	/**
-	 * Return an array with custom claims to be added to the JWT token.
-	 */
 	public function getJWTCustomClaims()
 	{
 		return [];
