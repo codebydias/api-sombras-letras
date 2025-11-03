@@ -94,5 +94,33 @@ class BookController extends Controller
         ]);
     }
 
-    
+    public function releases()
+    {
+        $releases = DB::table('books as boo')
+            ->where('boo.is_release', 'T')
+            ->select(
+                'boo.id',
+                'boo.title',
+                'boo.subtitle',
+                'boo.synopsis',
+                'boo.author_id',
+                'boo.category_id',
+                'boo.series_id',
+                'boo.is_release',
+                'boo.price',
+            )->get();
+
+        if ($releases->isEmpty()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Não tem lançamentos'
+
+            ]);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'releases' => $releases
+        ]);
+    }
 }

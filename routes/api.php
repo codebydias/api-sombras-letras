@@ -18,4 +18,5 @@ Route::prefix('auth')->group(function () {
 Route::prefix('books')->group(function () {
     Route::get('/collections', [BookController::class, 'collections']);
     Route::get('/sales', [BookController::class, 'sales']);
+    Route::get('/releases', [BookController::class, 'releases']);
 });

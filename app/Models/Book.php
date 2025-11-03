@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $author_id
  * @property int|null $category_id
  * @property int|null $series_id
+ * @property string|null $is_relesase
  * @property float|null $price
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
@@ -50,6 +51,7 @@ class Book extends Model
 		'author_id',
 		'category_id',
 		'series_id',
+		'is_release',
 		'price'
 	];
 
