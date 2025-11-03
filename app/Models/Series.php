@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon|null $updated_at
  * 
  * @property Collection|Book[] $books
+ * @property Collection|Sale[] $sales
  *
  * @package App\Models
  */
@@ -41,5 +42,10 @@ class Series extends Model
 	public function books()
 	{
 		return $this->hasMany(Book::class);
+	}
+
+	public function sales()
+	{
+		return $this->hasMany(Sale::class, 'serie_id');
 	}
 }

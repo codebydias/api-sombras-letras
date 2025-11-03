@@ -7,6 +7,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -14,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * 
  * @property string $id
  * @property string $title
- * @property string $subtitle
+ * @property string|null $subtitle
  * @property string|null $synopsis
  * @property int $author_id
  * @property int|null $category_id
@@ -26,6 +27,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Author $author
  * @property Category|null $category
  * @property Series|null $series
+ * @property Collection|Sale[] $sales
  *
  * @package App\Models
  */
@@ -64,5 +66,10 @@ class Book extends Model
 	public function series()
 	{
 		return $this->belongsTo(Series::class);
+	}
+
+	public function sales()
+	{
+		return $this->hasMany(Sale::class);
 	}
 }

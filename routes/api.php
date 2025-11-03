@@ -10,13 +10,12 @@ Route::prefix('auth')->group(function () {
     Route::post('/signin', [UserController::class, 'signin']);
 
     Route::middleware(['auth.jwt'])->group(function () {
-        
+
         Route::get('/me', [UserController::class, 'me']);
         Route::get('/logout', [UserController::class, 'logout']);
     });
 });
 Route::prefix('books')->group(function () {
     Route::get('/collections', [BookController::class, 'collections']);
-    
-
+    Route::get('/sales', [BookController::class, 'sales']);
 });
